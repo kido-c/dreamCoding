@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import Habit from './habit'
+import HabitAddForm from './habitAddForm';
 
 class Habits extends Component {
-    state = {
-        habits: [
-            {id: 1, name: 'Reading', count: 0 },
-            {id: 2, name: 'Running', count: 0 },
-            {id: 3, name: 'Coding', count: 0 }
-        ],
-    }
 
-    handleIncrement = (habit) =>{
-        console.log(`handleIncreament ${habit.name}`)
+
+    // habit 에는 
+    handleIncrement = (habit) =>{ 
+        this.props.onIncrement(habit)
     }
 
     handleDecrement = (habit) =>{
-        console.log(`handleDecreament ${habit.name}`)
+        this.props.onDecrement(habit)
     }
 
     handleDelete = (habit) => {
-        console.log(`handleDelete ${habit.name}`)
+        this.props.onDelete(habit)
+    }
+
+    handleAdd = (name) => {
+        this.props.onAdd(name)
     }
 
 
     render() {
         return (
+            <>
+        <HabitAddForm onAdd={this.handleAdd}/>
         <ul>
-            {this.state.habits.map(habit => (
+            {this.props.habits.map(habit => (
                 <Habit habit={habit} key={habit.id}
                 onIncrement={this.handleIncrement}
                 onDecrement={this.handleDecrement}
@@ -34,6 +36,8 @@ class Habits extends Component {
                 />
             ))}
         </ul>
+        <button onClick={this.props.onReset}>Reset</button>
+        </>
         );
     }
 }
